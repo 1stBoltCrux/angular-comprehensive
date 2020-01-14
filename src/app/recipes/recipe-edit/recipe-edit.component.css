@@ -1,0 +1,4 @@
+textarea.ng-invalid,
+input.ng-invalid {
+  background-color: rgb(255, 179, 190, 0.2);
+}
