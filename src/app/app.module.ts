@@ -1,6 +1,8 @@
+import { AuthInterceptorService } from "./auth/auth-interceptor.service";
+import { LoadingSpinnerComponent } from "./shared/loading-spinner/loading-spinner.component";
 import { AuthComponent } from "./auth/auth.component";
 import { ReactiveFormsModule } from "@angular/forms";
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { AppRouter } from "./app-router.module";
@@ -27,12 +29,19 @@ import { DropdownDirective } from "./shared/dropdown.directive";
     RecipeItemComponent,
     ShoppingListComponent,
     ShoppingEditComponent,
+    LoadingSpinnerComponent,
     BasicHighlightDirective,
     BetterHighlightDirective,
     DropdownDirective
   ],
   imports: [BrowserModule, ReactiveFormsModule, AppRouter, HttpClientModule],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptorService,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
