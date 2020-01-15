@@ -26,18 +26,5 @@ export class AuthInterceptorService implements HttpInterceptor {
         return next.handle(modifiedReq);
       })
     );
-    // this.authService.user.pipe(take(1)).subscribe(user => {
-    //   this.user = user;
-    // });
-    // if (this.user && this.user.token) {
-    //   const modifiedReq = req.clone({
-    //     params: req.params.append("auth", this.user.token)
-    //   });
-
-    //   return next.handle(modifiedReq);
-    // } else {
-    //   console.log("token does not exist" + req);
-    //   return next.handle(req);
-    // }
   }
 }

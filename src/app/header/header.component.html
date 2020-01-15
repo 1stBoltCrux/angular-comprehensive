@@ -28,7 +28,8 @@
             <li><a (click)="onFetchData()">Fetch Data</a></li>
           </ul>
         </li>
-        <li *ngIf="isAuthenticated"><a>Logout</a></li>
+        <li *ngIf="isAuthenticated"><a (click)="onLogout()"
+             style="cursor: pointer;">Logout</a></li>
       </ul>
     </div>
   </div>

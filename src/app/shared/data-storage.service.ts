@@ -1,10 +1,10 @@
-import { RecipesComponent } from "./../recipes/recipes.component";
 import { RecipeService } from "./../recipes/recipe.service";
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { map, tap, exhaustMap, take } from "rxjs/operators";
+import { map, tap, exhaustMap, take, catchError } from "rxjs/operators";
 import { Recipe } from "../recipes/recipes.model";
 import { AuthService } from "../auth/auth.service";
+import { of } from "rxjs";
 
 @Injectable({
   providedIn: "root"
@@ -45,8 +45,6 @@ export class DataStorageService {
         });
       }),
       tap(recipes => {
-        console.log("firing set-recipes");
-        console.log(recipes);
         this.recipeService.setRecipes(recipes);
       })
     );
