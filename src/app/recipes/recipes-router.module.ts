@@ -3,13 +3,13 @@ import { NgModule } from "@angular/core";
 import { RecipesComponent } from "./recipes.component";
 import { RecipeDetailComponent } from "./recipe-detail/recipe-detail.component";
 import { AuthGuard } from "../auth/auth.guard";
-import { RecipeStartComponent } from "./recipe-start/recipe-start.component";
 import { RecipeEditComponent } from "./recipe-edit/recipe-edit.component";
 import { RecipeResolver } from "../recipe-resolver";
+import { RecipeStartComponent } from "./recipe-start/recipe-start.component";
 
 const routes: Routes = [
   {
-    path: "recipes",
+    path: "",
     component: RecipesComponent,
     canActivate: [AuthGuard],
     children: [

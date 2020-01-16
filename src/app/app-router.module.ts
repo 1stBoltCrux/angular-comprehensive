@@ -1,23 +1,19 @@
-import { RecipeResolver } from "./recipe-resolver";
-import { BrowserModule } from "@angular/platform-browser";
-import { ReactiveFormsModule } from "@angular/forms";
 import { NgModule } from "@angular/core";
-import { Routes, RouterModule } from "@angular/router";
-import { RecipeStartComponent } from "./recipes/recipe-start/recipe-start.component";
-import { RecipeEditComponent } from "./recipes/recipe-edit/recipe-edit.component";
+import { Routes, RouterModule, PreloadAllModules } from "@angular/router";
 
 const appRoutes: Routes = [
-  { path: "", redirectTo: "/recipes", pathMatch: "full" }
+  { path: "", redirectTo: "/recipes", pathMatch: "full" },
+  { path: "recipes", loadChildren: "./recipes/recipes.module#RecipesModule" },
+  {
+    path: "shopping-list",
+    loadChildren: "./shopping-list/shopping-list.module#ShoppingListModule"
+  }
 ];
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(appRoutes),
-    ReactiveFormsModule,
-    BrowserModule
+    RouterModule.forRoot(appRoutes, { preloadingStrategy: PreloadAllModules })
   ],
-  exports: [RouterModule],
-  declarations: [RecipeStartComponent, RecipeEditComponent],
-  providers: [RecipeResolver]
+  exports: [RouterModule]
 })
 export class AppRouter {}

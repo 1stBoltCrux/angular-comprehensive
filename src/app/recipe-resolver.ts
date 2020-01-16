@@ -8,7 +8,9 @@ import {
 import { Observable } from "rxjs";
 import { Recipe } from "./recipes/recipes.model";
 import { Injectable } from "@angular/core";
-@Injectable()
+@Injectable({
+  providedIn: "root"
+})
 export class RecipeResolver implements Resolve<Recipe[]> {
   constructor(
     private dataStorageService: DataStorageService,

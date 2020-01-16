@@ -1,7 +1,5 @@
 import { SharedModule } from "./shared/shared.module";
 import { AuthModule } from "./auth/auth.module";
-import { ShoppingListModule } from "./shopping-list/shopping-list.module";
-import { RecipesModule } from "./recipes/recipes.module";
 import { AlertComponent } from "./shared/alert/alert.component";
 import { AuthInterceptorService } from "./auth/auth-interceptor.service";
 import { ReactiveFormsModule } from "@angular/forms";
@@ -20,8 +18,6 @@ import { DirectivesModule } from "./directives/directives.module";
     ReactiveFormsModule,
     AppRouter,
     HttpClientModule,
-    RecipesModule,
-    ShoppingListModule,
     DirectivesModule,
     AuthModule,
     SharedModule
