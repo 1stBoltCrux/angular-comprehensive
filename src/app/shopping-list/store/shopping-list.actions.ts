@@ -23,13 +23,13 @@ export class AddIngredients implements Action {
 export class UpdateIngredient implements Action {
   readonly type = UPDATE_INGREDIENT;
 
-  constructor(public payload: { ingredient: Ingredient; index: number }) {}
+  constructor(public payload: Ingredient) {}
 }
 
 export class DeleteIngredient implements Action {
   readonly type = DELETE_INGREDIENT;
 
-  constructor(public payload: number) {}
+  constructor() {}
 }
 
 export class StartEdit implements Action {

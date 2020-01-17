@@ -1,7 +1,5 @@
-import { ShoppingListService } from "./../shopping-list/shopping-list.service";
 import { Recipe } from "./recipes.model";
-import { Injectable, EventEmitter } from "@angular/core";
-import { Ingredient } from "../shared/ingredient.model";
+import { Injectable } from "@angular/core";
 import { Subject } from "rxjs";
 
 @Injectable({
@@ -12,7 +10,7 @@ export class RecipeService {
   recipesChanged = new Subject<Recipe[]>();
   private recipes: Recipe[] = [];
 
-  constructor(private shoppingListService: ShoppingListService) {}
+  constructor() {}
 
   getRecipe(id: number) {
     const selectedRecipe = this.recipes.find(recipe => {
