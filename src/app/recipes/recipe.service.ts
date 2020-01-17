@@ -11,22 +11,6 @@ export class RecipeService {
   currentRecipe = new Subject<Recipe>();
   recipesChanged = new Subject<Recipe[]>();
   private recipes: Recipe[] = [];
-  // recipes: Recipe[] = [
-  //   new Recipe(
-  //     1,
-  //     "Chicken Flombage",
-  //     "A delicious recipe for the parts of the chicken that god will not allow you to eat",
-  //     "https://easychickenrecipes.com/wp-content/uploads/2019/03/cheesy-asparagus-stuffed-chicken-breast-recipe-4-of-9.jpg",
-  //     [new Ingredient("potato", 2), new Ingredient("chicken", 4)]
-  //   ),
-  //   new Recipe(
-  //     2,
-  //     "Chicken Bamboozle",
-  //     "A delicious recipe for the parts of the chicken that god will not allow you to eat",
-  //     "https://easychickenrecipes.com/wp-content/uploads/2019/03/cheesy-asparagus-stuffed-chicken-breast-recipe-4-of-9.jpg",
-  //     [new Ingredient("tomato", 2), new Ingredient("chicken", 4)]
-  //   )
-  // ];
 
   constructor(private shoppingListService: ShoppingListService) {}
 
