@@ -22,7 +22,7 @@ import { StoreRouterConnectingModule } from "@ngrx/router-store";
 @NgModule({
   declarations: [AppComponent, HeaderComponent],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }).withServerTransition({ appId: 'serverApp' }),
     ReactiveFormsModule,
     AppRouter,
     HttpClientModule,
