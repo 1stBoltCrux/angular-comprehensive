@@ -1,4 +1,7 @@
-import { RecipeService } from "./recipe.service";
+import { DataStorageService } from "./../shared/data-storage.service";
+import { Store } from "@ngrx/store";
+import * as fromApp from "./../store/app.reducer";
+import * as RecipesActions from "./store/recipes.actions";
 import { Component, OnInit } from "@angular/core";
 import { Recipe } from "./recipes.model";
 
@@ -10,12 +13,14 @@ import { Recipe } from "./recipes.model";
 export class RecipesComponent implements OnInit {
   recipes: Recipe[];
 
-  constructor(private recipeService: RecipeService) {}
+  constructor(
+    private store: Store<fromApp.AppState>,
+    private dataStorageService: DataStorageService
+  ) {}
 
   ngOnInit() {
-    this.recipes = this.recipeService.getRecipes();
-    this.recipeService.recipesChanged.subscribe(recipes => {
-      this.recipes = recipes;
+    this.store.select("recipes").subscribe(recipesState => {
+      this.recipes = recipesState.recipes;
     });
   }
 }

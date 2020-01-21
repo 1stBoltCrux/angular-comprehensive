@@ -1,8 +1,12 @@
+import * as RecipesActions from "./../store/recipes.actions";
+import { Store } from "@ngrx/store";
+import * as fromApp from "./../../store/app.reducer";
 import { FormGroup, FormControl, FormArray, Validators } from "@angular/forms";
 import { RecipeService } from "./../recipe.service";
 import { Recipe } from "./../recipes.model";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Params, Router } from "@angular/router";
+import { map, switchMap } from "rxjs/operators";
 
 @Component({
   selector: "app-recipe-edit",
@@ -18,19 +22,31 @@ export class RecipeEditComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private recipeService: RecipeService,
-    private router: Router
+    private router: Router,
+    private store: Store<fromApp.AppState>
   ) {}
 
   ngOnInit() {
-    this.recipeService.currentRecipe.subscribe(recipe => {
-      this.currentRecipe = recipe;
-    });
-    this.route.params.subscribe((params: Params) => {
-      this.id = +params.id;
-      this.editMode = !!params.id;
-    });
-
-    this.recipeService.getRecipe(this.id);
+    this.route.params
+      .pipe(
+        map(params => {
+          return +params.id;
+        }),
+        switchMap(id => {
+          this.id = id;
+          this.editMode = !!id;
+          return this.store.select("recipes").pipe(
+            map(recipesState => {
+              return recipesState.recipes.find(recipe => {
+                return recipe.id === this.id;
+              });
+            })
+          );
+        })
+      )
+      .subscribe(currentRecipe => {
+        this.currentRecipe = currentRecipe;
+      });
 
     let name = "";
     let description = "";
@@ -95,9 +111,11 @@ export class RecipeEditComponent implements OnInit {
     };
 
     if (this.editMode) {
-      this.recipeService.updateRecipe(newRecipe, this.id);
+      this.store.dispatch(
+        new RecipesActions.UpdateRecipe({ recipe: newRecipe, id: this.id })
+      );
     } else {
-      this.recipeService.addRecipe(newRecipe);
+      this.store.dispatch(new RecipesActions.AddRecipe(newRecipe));
     }
     this.onCancel();
   }
