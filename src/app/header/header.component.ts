@@ -18,7 +18,7 @@ export class HeaderComponent implements OnInit {
     private store: Store<fromApp.AppState>
   ) {}
   onSaveData() {
-    // this.dataStorageService.storeRecipes();
+    this.store.dispatch(new RecipesActions.StoreRecipes());
   }
   onFetchData() {
     this.store.dispatch(new RecipesActions.FetchRecipes());

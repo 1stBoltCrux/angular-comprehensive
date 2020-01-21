@@ -21,8 +21,6 @@ export class SetRecipes implements Action {
 }
 export class StoreRecipes implements Action {
   readonly type = STORE_RECIPES;
-
-  constructor(public payload: Recipe[]) {}
 }
 export class UpdateRecipe implements Action {
   readonly type = UPDATE_RECIPE;

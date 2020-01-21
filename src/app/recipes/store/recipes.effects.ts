@@ -5,7 +5,7 @@ import { Actions, Effect, ofType } from "@ngrx/effects";
 import * as RecipesActions from "./recipes.actions";
 import * as fromApp from "./../../store/app.reducer";
 import { Recipe } from "../recipes.model";
-import { switchMap, map } from "rxjs/operators";
+import { switchMap, map, withLatestFrom } from "rxjs/operators";
 
 @Injectable()
 export class RecipesEffects {
@@ -19,17 +19,28 @@ export class RecipesEffects {
       );
     }),
     map(recipes => {
-      console.log(recipes);
-      return recipes.map(recipe => {
+      const newRecipes = recipes.map(recipe => {
         return {
           ...recipe,
           ingredients: recipe.ingredients ? recipe.ingredients : []
         };
       });
-    }),
-    map(recipes => {
-      console.log("firing fetchRecipes effect");
-      return new RecipesActions.SetRecipes(recipes);
+      return new RecipesActions.SetRecipes(newRecipes);
+    })
+  );
+
+  @Effect({ dispatch: false })
+  storeRecipes = this.actions$.pipe(
+    ofType(RecipesActions.STORE_RECIPES),
+    withLatestFrom(
+      this.store.select("recipes").pipe(map(recipeState => recipeState.recipes))
+    ),
+    switchMap(([, recipes]) => {
+      console.log(recipes);
+      return this.http.put(
+        "https://angular-practice-bf19b.firebaseio.com/recipes.json",
+        recipes
+      );
     })
   );
 
@@ -38,17 +49,4 @@ export class RecipesEffects {
     private http: HttpClient,
     private store: Store<fromApp.AppState>
   ) {}
-
-  // @Effect()
-  // saveRecipes = this.actions$.pipe(
-  //   ofType(RecipesActions.SAVE_RECIPES),
-  //   map(() => {
-  //     return this.store
-  //       .select("recipes")
-  //       .subscribe(recipesState => recipesState.recipes);
-  //   }),
-  //   switchMap(recipesState => {
-  //     console.log(recipesState);
-  //   })
-  // );
 }

@@ -46,6 +46,13 @@ export function recipesReducer(
       newRecipes[updatedRecipeIndex] = newRecipe;
       console.log(newRecipes);
       return { ...state, recipes: [...newRecipes] };
+    case RecipesActions.DELETE_RECIPE:
+      return {
+        ...state,
+        recipes: state.recipes.filter(recipe => {
+          return recipe.id !== action.payload;
+        })
+      };
     default:
       return state;
   }

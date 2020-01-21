@@ -1,7 +1,6 @@
 import * as RecipesActions from "./../store/recipes.actions";
 import { switchMap, map } from "rxjs/operators";
 import * as ShoppingListActions from "./../../shopping-list/store/shopping-list.actions";
-import { RecipeService } from "./../recipe.service";
 import { Recipe } from "./../recipes.model";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -19,7 +18,6 @@ export class RecipeDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private recipeService: RecipeService,
     private store: Store<fromApp.AppState>,
     private router: Router
   ) {}
@@ -44,8 +42,6 @@ export class RecipeDetailComponent implements OnInit {
       .subscribe(currentRecipe => {
         this.currentRecipe = currentRecipe;
       });
-
-    //
   }
 
   onDelete() {

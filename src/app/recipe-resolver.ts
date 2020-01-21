@@ -7,10 +7,10 @@ import {
   ActivatedRouteSnapshot,
   RouterStateSnapshot
 } from "@angular/router";
-import { Observable } from "rxjs";
+import { Observable, EMPTY, of } from "rxjs";
 import { Recipe } from "./recipes/recipes.model";
 import { Injectable } from "@angular/core";
-import { take, tap } from "rxjs/operators";
+import { take, map, switchMap, tap } from "rxjs/operators";
 @Injectable({
   providedIn: "root"
 })
@@ -24,8 +24,24 @@ export class RecipeResolver implements Resolve<Recipe[]> {
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Observable<Recipe[]> | Promise<Recipe[]> | Recipe[] {
-    this.store.dispatch(new RecipesActions.FetchRecipes());
-    return this.actions$.pipe(ofType(RecipesActions.SET_RECIPES), take(1));
+  ): Observable<any> {
+    return this.store.select("recipes").pipe(
+      take(1),
+      map(recipeState => {
+        return recipeState.recipes;
+      }),
+      switchMap(recipes => {
+        console.log(recipes);
+        if (recipes.length > 0) {
+          return of(recipes);
+        } else {
+          this.store.dispatch(new RecipesActions.FetchRecipes());
+          return this.actions$.pipe(
+            ofType(RecipesActions.SET_RECIPES),
+            take(1)
+          );
+        }
+      })
+    );
   }
 }
